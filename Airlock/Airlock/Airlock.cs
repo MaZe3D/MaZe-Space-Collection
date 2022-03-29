@@ -16,8 +16,8 @@
             public AirLockStatus Status { get; set; } = AirLockStatus.IDLE;
 
 
-            public IMyDoor Door1 { get; private set; }
-            public IMyDoor Door2 { get; private set; }
+            public IDoor Door1 { get; private set; }
+            public IDoor Door2 { get; private set; }
             internal int doorOpened = 0;
             internal DateTime t1 = DateTime.Now;
 
@@ -126,7 +126,7 @@
                 return Door1 != null && Door2 != null;
             }
 
-            public void SetDoor(int idx, IMyDoor door)
+            public void SetDoor(int idx, IDoor door)
             {
                 switch(idx)
                 {

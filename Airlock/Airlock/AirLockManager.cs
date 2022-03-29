@@ -34,8 +34,13 @@
                 _program.Echo("Loading doors...");
                 var allDoors = new List<IMyDoor>();
                 _program.GridTerminalSystem.GetBlocksOfType(allDoors, block => block.CustomName.StartsWith(AIRLOCK_PREFIX));
-                _program.Echo($"Found {allDoors.Count} potential airlock-doors.");
-                allDoors.ForEach(LoadDoor);
+                _program.Echo($"Found {allDoors.Count} airlock-doors.");
+                allDoors.ForEach(d => LoadDoor(new SimpleDoor(d)));
+
+                var groups = new List<IMyBlockGroup>();
+                _program.GridTerminalSystem.GetBlockGroups(groups, group => group.Name.StartsWith(AIRLOCK_PREFIX));
+                _program.Echo($"Found {groups.Count} airlock-groups.");
+                groups.ForEach(d => LoadDoor(new GroupDoor(d)));
 
                 CleaupInvalidAirlocks();
                 _program.Echo("Done.");
@@ -60,9 +65,9 @@
             }
 
 
-            private void LoadDoor(IMyDoor door)
+            private void LoadDoor(IDoor door)
             {
-                var parameter = door.CustomName.Split(ARG_SEPERATORS);
+                var parameter = door.DisplayName.Split(ARG_SEPERATORS);
                 if (parameter.Length < 3) return;
 
                 string airLockId = parameter[1];
@@ -100,12 +105,9 @@
             
             private void CleaupInvalidAirlocks()
             {
-                foreach (var pair in _airlocks)
+                foreach (var pair in _airlocks.Where(p => !p.Value.IsValid()).ToList())
                 {
-                    if (!pair.Value.IsValid())
-                    {
-                        _airlocks.Remove(pair.Key);
-                    }
+                    _airlocks.Remove(pair.Key);
                 }
             }
 
