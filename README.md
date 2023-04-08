@@ -18,7 +18,7 @@ An airlock consists of two (sets of) *doors* from which only one can be opened a
 (Click)
 
 ### Install
-Subscribe on [Steam](https://steamcommunity.com/sharedfiles/filedetails/?id=2959314579)
+Subscribe on [Steam](https://steamcommunity.com/sharedfiles/filedetails/?id=2959338356)
 
 ### Usage
 To use airlocks on a grid, **one** programmable block must be attached running the script. The doors for the airlock then get detected automaticly **if they are named the right way:** 
