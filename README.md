@@ -13,8 +13,12 @@ An airlock consists of two (sets of) *doors* from which only one can be opened a
 - multiple airlocks per programmable block
 - use blockgroup as single *virtual* door
 
+### Demonstration Video
+[<img alt="Demonstration Video" src="https://img.youtube.com/vi/D6rCZL6qTJw/maxresdefault.jpg" width=500/>](https://youtu.be/D6rCZL6qTJw)  
+(Click)
+
 ### Install
-See steam TODO
+Subscribe on [Steam](https://steamcommunity.com/sharedfiles/filedetails/?id=2959314579)
 
 ### Usage
 To use airlocks on a grid, **one** programmable block must be attached running the script. The doors for the airlock then get detected automaticly **if they are named the right way:** 
@@ -35,6 +39,7 @@ Instead of a single door, a block group of doors can be used instead by naming i
 
 ### Images
 #### Airlock Door
-![image](https://user-images.githubusercontent.com/47496388/230710782-4af1a398-97bb-4cff-88a9-811338440e98.png)
+<img src="https://user-images.githubusercontent.com/47496388/230710782-4af1a398-97bb-4cff-88a9-811338440e98.png" width=400/>
+
 #### Programmable Block
-![image](https://user-images.githubusercontent.com/47496388/230712251-5f79c127-edf1-4223-a3d9-239f305233b0.png)
+<img src="https://user-images.githubusercontent.com/47496388/230712251-5f79c127-edf1-4223-a3d9-239f305233b0.png" width=600/>
