@@ -8,7 +8,7 @@ An airlock consists of two (sets of) *doors* from which only one can be opened a
 
 ### Features
 - automatic opening/closing airlock
-- prevents both doors from being open at the same time
+- prevents both doors from being open at the same time (by disabeling the only closed door)
 - custom door open times
 - multiple airlocks per programmable block
 - use blockgroup as single *virtual* door
@@ -19,7 +19,7 @@ See steam TODO
 ### Usage
 To use airlocks on a grid, **one** programmable block must be attached running the script. The doors for the airlock then get detected automaticly **if they are named the right way:** 
 
-Door A: `AirLock_[airlock name]_1<_[door keepopen time]>`  
+Door A: `AirLock_[airlock name]_1<_[door keep open time]>`  
 Door B: `AirLock_[airlock name]_2<_[door keep open time]>` 
 
 Where `[airlock name]` is the name of the airlock and `<...>` is an optianal suffix specifying the time in milliseconds the door will stay open before closing automaticly.
@@ -27,7 +27,6 @@ Where `[airlock name]` is the name of the airlock and `<...>` is an optianal suf
 > #### Example  
 > Door A: `AirLock_Hangar_1`  
 > Door B: `AirLock_Hangar_2_2000`
-
 
 
 After adding / renaming a new door, the **script has to be reloaded** by pressing "run script" inside the programmable block.
