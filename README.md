@@ -33,3 +33,8 @@ After adding / renaming a new door, the **script has to be reloaded** by pressin
 
 Instead of a single door, a block group of doors can be used instead by naming it as specified above. This can be useful for airtight hangar doors.
 
+### Images
+#### Airlock Door
+![image](https://user-images.githubusercontent.com/47496388/230710782-4af1a398-97bb-4cff-88a9-811338440e98.png)
+#### Programmable Block
+![image](https://user-images.githubusercontent.com/47496388/230712251-5f79c127-edf1-4223-a3d9-239f305233b0.png)
