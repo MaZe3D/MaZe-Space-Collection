@@ -7,7 +7,6 @@
     {
         
         internal readonly AirLockManager manager;
-
         
         public Program()
         {
@@ -17,7 +16,6 @@
 
             manager.InitAirLocks();
         }
-
         
         public void Main(string argument, UpdateType updateSource)
         {

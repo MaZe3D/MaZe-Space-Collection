@@ -55,13 +55,13 @@
                 _program.Echo($"=== Airlock Manager v1.0 ===");
                 foreach (var pair in _airlocks.OrderBy(p => p.Key))
                 {
-                    _program.Echo($"AirLock No. {pair.Key}: {pair.Value.Status}");
+                    _program.Echo($"AirLock \"{pair.Key}\": {pair.Value.Status}");
                     pair.Value.Manager();
 
                 }
                 _program.Echo("");
-                _program.Echo("=== Stistics ===");
-                _program.Echo($"Stript Runtime: {_program.Runtime.LastRunTimeMs}ms");
+                _program.Echo("=== Statistics ===");
+                _program.Echo($"Script Runtime: {_program.Runtime.LastRunTimeMs}ms");
             }
 
 
