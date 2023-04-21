@@ -4,6 +4,7 @@
     using SpaceEngineers.Game.ModAPI.Ingame;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     internal partial class Program
     {
@@ -20,7 +21,7 @@
 
             public IDoor Door1 { get; private set; }
             public IDoor Door2 { get; private set; }
-            public IList<IMyAirVent> AirVents { get; private set; } = new List<IMyAirVent>();
+            public List<IMyAirVent> AirVents { get; private set; } = new List<IMyAirVent>();
             internal int doorOpened = 0;
             internal DateTime t1 = DateTime.Now;
 
@@ -52,9 +53,19 @@
                         CloseDoors();
                         if (ALSreturn == 0)
                         {
-                            Status = AirLockStatus.OUT;
+                            Status = AirLockStatus.DEPRESSURIZE;
+                            AirVents.ForEach(v => v.Depressurize = true);
+                            AirVents.ForEach(v => v.Enabled= true);
                             t1 = DateTime.Now;
                         }
+                        break;
+                    case AirLockStatus.DEPRESSURIZE:
+                        if (AirVents.All(v => v.GetOxygenLevel() == 0))
+                        {
+                            Status = AirLockStatus.OUT;
+                            AirVents.ForEach(v => v.Enabled = false);
+                        }
+
                         break;
                     case AirLockStatus.OUT:
                         if (doorOpened == 1)
@@ -81,7 +92,7 @@
             }
 
             /// <summary>
-            /// The ALS.
+            /// The air lock state.
             /// </summary>
             /// <returns>The <see cref="int"/>.</returns>
             public int ALS()
@@ -160,6 +171,7 @@
                 IDLE,
                 IN,
                 CLOSE_DOOR,
+                DEPRESSURIZE,
                 OUT,
                 CLOSE_DOOR_2
 
