@@ -8,6 +8,9 @@
 
     internal partial class Program
     {
+
+        public const string VERSION = "v1.1";
+
         /// <summary>
         /// Class managing the airlock functionality.
         /// </summary>
@@ -44,8 +47,9 @@
                 groups.ForEach(d => LoadDoor(new GroupDoor(d)));
 
                 var vents = new List<IMyAirVent>();
-                _program.GridTerminalSystem.GetBlocksOfType(vents, vent => vent.Name.StartsWith(AIRLOCK_PREFIX));
-                _program.Echo($"Found {vents.Count} ait-vents.");
+                _program.GridTerminalSystem.GetBlocksOfType(vents, vent => vent.CustomName.StartsWith(AIRLOCK_PREFIX));
+                _program.Echo($"Found {vents.Count} air-vents.");
+
                 vents.ForEach(d => LoadVent(d));
 
                 CleaupInvalidAirlocks();
@@ -58,10 +62,11 @@
             /// </summary>
             public void Manage()
             {
-                _program.Echo($"=== Airlock Manager v1.0 ===");
+                _program.Echo($"=== Airlock Manager {VERSION} ===");
                 foreach (var pair in _airlocks.OrderBy(p => p.Key))
                 {
-                    _program.Echo($"AirLock \"{pair.Key}\": {pair.Value.Status}");
+                    var airVentCntStr = pair.Value.AirVents.Count > 0 ? $" ({pair.Value.AirVents.Count.ToString()})" : "";
+                    _program.Echo($"AirLock \"{pair.Key}\"{airVentCntStr}: {pair.Value.Status}");
                     pair.Value.Manager();
 
                 }
@@ -109,7 +114,7 @@
 
             private void LoadVent(IMyAirVent vent)
             {
-                var parameter = vent.DisplayName.Split(ARG_SEPERATORS);
+                var parameter = vent.CustomName.Split(ARG_SEPERATORS);
                 if (parameter.Length < 2) return;
 
                 string airLockId = parameter[1];
@@ -121,7 +126,7 @@
             }
 
 
-            
+
             private void CleaupInvalidAirlocks()
             {
                 foreach (var pair in _airlocks.Where(p => !p.Value.IsValid()).ToList())
