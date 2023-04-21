@@ -367,3 +367,4 @@ FodyWeavers.xsd
 *.cache
 */MDK.paths.props
 */mdk.paths.props
+/Airlock/MDK/mdk.paths.props
