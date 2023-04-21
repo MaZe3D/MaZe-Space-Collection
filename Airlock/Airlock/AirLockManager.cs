@@ -1,6 +1,7 @@
 ﻿namespace IngameScript
 {
     using Sandbox.ModAPI.Ingame;
+    using SpaceEngineers.Game.ModAPI.Ingame;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -41,6 +42,11 @@
                 _program.GridTerminalSystem.GetBlockGroups(groups, group => group.Name.StartsWith(AIRLOCK_PREFIX));
                 _program.Echo($"Found {groups.Count} airlock-groups.");
                 groups.ForEach(d => LoadDoor(new GroupDoor(d)));
+
+                var vents = new List<IMyAirVent>();
+                _program.GridTerminalSystem.GetBlocksOfType(vents, vent => vent.Name.StartsWith(AIRLOCK_PREFIX));
+                _program.Echo($"Found {vents.Count} ait-vents.");
+                vents.ForEach(d => LoadVent(d));
 
                 CleaupInvalidAirlocks();
                 _program.Echo("Done.");
@@ -99,6 +105,19 @@
                 }
 
                 _program.Echo($"Added Door #{doorNumber} to lock: {airLockId}");
+            }
+
+            private void LoadVent(IMyAirVent vent)
+            {
+                var parameter = vent.DisplayName.Split(ARG_SEPERATORS);
+                if (parameter.Length < 2) return;
+
+                string airLockId = parameter[1];
+                AirLock alock;
+                if (_airlocks.TryGetValue(airLockId, out alock))
+                {
+                    alock.AddVent(vent);
+                }
             }
 
 

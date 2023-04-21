@@ -1,7 +1,9 @@
 ﻿namespace IngameScript
 {
     using Sandbox.ModAPI.Ingame;
+    using SpaceEngineers.Game.ModAPI.Ingame;
     using System;
+    using System.Collections.Generic;
 
     internal partial class Program
     {
@@ -18,6 +20,7 @@
 
             public IDoor Door1 { get; private set; }
             public IDoor Door2 { get; private set; }
+            public IList<IMyAirVent> AirVents { get; private set; } = new List<IMyAirVent>();
             internal int doorOpened = 0;
             internal DateTime t1 = DateTime.Now;
 
@@ -29,7 +32,7 @@
             {
 
                 int ALSreturn = ALS();
-
+                
                 switch (Status)
                 {
                     case AirLockStatus.IDLE:
@@ -137,6 +140,15 @@
                         Door2 = door;
                         break;
                 }
+            }
+
+            /// <summary>
+            /// Adds an airvent to the lock.
+            /// </summary>
+            /// <param name="vent">vent to add</param>
+            public void AddVent(IMyAirVent vent)
+            {
+                AirVents.Add(vent);
             }
 
             /// <summary>
