@@ -366,3 +366,4 @@ FodyWeavers.xsd
 *.zip
 *.cache
 */MDK.paths.props
+*/mdk.paths.props
