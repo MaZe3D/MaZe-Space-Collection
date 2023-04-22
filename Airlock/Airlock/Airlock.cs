@@ -55,15 +55,15 @@
                         {
                             Status = AirLockStatus.DEPRESSURIZE;
                             AirVents.ForEach(v => v.Depressurize = true);
-                            AirVents.ForEach(v => v.Enabled= true);
-                            t1 = DateTime.Now;
+                            AirVents.ForEach(v => v.Enabled = true);
                         }
                         break;
                     case AirLockStatus.DEPRESSURIZE:
-                        if (AirVents.All(v => v.GetOxygenLevel() == 0))
+                        if (AirVents.All(v => v.GetOxygenLevel() < 0.001))
                         {
                             Status = AirLockStatus.OUT;
                             AirVents.ForEach(v => v.Enabled = false);
+                            t1 = DateTime.Now;
                         }
 
                         break;
