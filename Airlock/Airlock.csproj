@@ -58,6 +58,7 @@
     <Compile Include="Airlock\Door\GroupDoor.cs" />
     <Compile Include="Airlock\Door\IDoor.cs" />
     <Compile Include="Airlock\Door\SimpleDoor.cs" />
+    <Compile Include="Logger.cs" />
     <Compile Include="List.cs" />
     <Compile Include="MDK\Bootstrapper.cs" />
     <AdditionalFiles Include="MDK\MDK.options.props">
