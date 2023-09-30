@@ -4,6 +4,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Text;
 
     internal partial class Program
     {
@@ -19,11 +20,16 @@
             private readonly MyGridProgram _program;
             private readonly Dictionary<string, AirLock> _airlocks;
 
+            private List<IMyTextPanel> _displayPanels;
+
             
+
+
             public AirLockManager(MyGridProgram program)
             {
                 _program = program;
                 _airlocks = new Dictionary<string, AirLock>();
+
             }
 
             /// <summary>
@@ -31,16 +37,22 @@
             /// </summary>
             public void InitAirLocks()
             {
-                _program.Echo("Loading doors...");
+                Logger.AttachLogger(new FunctionalLogListener((string msg) => { _program.Echo(msg); return true; }));
+                Logger.Log("Loading doors...");
                 var allDoors = new List<IMyDoor>();
                 _program.GridTerminalSystem.GetBlocksOfType(allDoors, block => block.CustomName.StartsWith(AIRLOCK_PREFIX));
-                _program.Echo($"Found {allDoors.Count} airlock-doors.");
+                Logger.Log($"Found {allDoors.Count} airlock-doors.");
                 allDoors.ForEach(d => LoadDoor(new SimpleDoor(d)));
 
                 var groups = new List<IMyBlockGroup>();
                 _program.GridTerminalSystem.GetBlockGroups(groups, group => group.Name.StartsWith(AIRLOCK_PREFIX));
-                _program.Echo($"Found {groups.Count} airlock-groups.");
+                Logger.Log($"Found {groups.Count} airlock-groups.");
                 groups.ForEach(d => LoadDoor(new GroupDoor(d)));
+
+                var displays = new List<IMyTextPanel>();
+                _program.GridTerminalSystem.GetBlocksOfType(displays, display => display.CustomName.StartsWith(AIRLOCK_PREFIX));
+                Logger.Log($"Found {groups.Count} airlock-displays.");
+                _displayPanels = displays;
 
                 CleaupInvalidAirlocks();
                 _program.Echo("Done.");
@@ -52,16 +64,15 @@
             /// </summary>
             public void Manage()
             {
-                _program.Echo($"=== Airlock Manager v1.0 ===");
+                Logger.Log($"=== Airlock Manager v1.0 ===");
                 foreach (var pair in _airlocks.OrderBy(p => p.Key))
                 {
-                    _program.Echo($"AirLock \"{pair.Key}\": {pair.Value.Status}");
+                    Logger.Log($"AirLock \"{pair.Key}\": {pair.Value.Status}");
                     pair.Value.Manager();
-
                 }
-                _program.Echo("");
-                _program.Echo("=== Statistics ===");
-                _program.Echo($"Script Runtime: {_program.Runtime.LastRunTimeMs}ms");
+                Logger.Log("");
+                Logger.Log("=== Statistics ===");
+                Logger.Log($"Script Runtime: {_program.Runtime.LastRunTimeMs}ms");
             }
 
 
@@ -100,8 +111,6 @@
 
                 _program.Echo($"Added Door #{doorNumber} to lock: {airLockId}");
             }
-
-
             
             private void CleaupInvalidAirlocks()
             {
@@ -110,7 +119,6 @@
                     _airlocks.Remove(pair.Key);
                 }
             }
-
         }
     }
 }
